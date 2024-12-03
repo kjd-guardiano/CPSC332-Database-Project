@@ -1,73 +1,210 @@
-body{
-    background-color: #2C2D2E;
-  }
+/* General Body Styles */
+body {
+  background: linear-gradient(to left, #f7cbe1, #cff0ff);
+  /* Blue to pink gradient */
+  font-family: 'Crimson Text', serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header Section Styles */
+/* Header Section Styles */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* Space between the title/image and the navigation */
+  padding: 10px;
+  /* Optional, to give some space inside the header */
+  background-color: white;
+}
+
+h1 {
+  color: #2c3e50;
+  /* Dark gray for the text to stand out */
+  font-size: 24px;
+  /* Smaller font size for header */
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  margin-right: 15px;
+  /* Reduced space between heading and image */
+  margin-left: -700px;
+  /* Moves the title further left */
+}
+
+.tuffy {
+  width: 120px;
+  /* Slightly smaller logo */
+  height: auto;
+  margin-right: 10px;
+  margin-left: -10px;
+  /* Moves the image slightly to the left */
+}
+
+
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li a {
+  color: rgb(36, 34, 34);
+  text-decoration: none;
+  font-size: 1.1em;
+  padding: 5px 10px;
+  transition: color 0.3s ease;
+}
+
+
+
+/* Main Content Section Styles */
+main {
+  padding: 20px;
+}
+
+.intro {
+  text-align: center;
+  margin-top: 25px;
+}
+
+.intro h2 {
+  color: #2c3e50;
+  font-size: 2em;
+}
+
+.intro p {
+  color: #333;
+  font-size: 1.2em;
+  margin: 15px 0;
+}
+
+/* View Books Button Styles (increased size and prominence) */
+.view-books-btn {
+  background-color: #42baf1;
+  color: #2c3e50;
+  border: none;
+  padding: 20px 40px;
+  /* Larger button */
+  font-size: 1.5em;
+  /* Larger text */
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-top: 15px;
+  margin-bottom: 30px;
+}
+
+.view-books-btn:hover {
+  background-color: #e9489b;
+  /* Pink hover effect */
+  transform: scale(1.1);
+  /* Slight zoom effect on hover */
+}
+
+.booklist {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+}
+
+.booklist1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+}
+
+.featured-books {
+  display: flex;
+  flex-direction: row;
+  background-color: #50ec6a;
+  border-radius: 10px;
+  margin: 50px;
+  box-shadow: #fa68b4;
+ 
+}
+
+.featured-books1 {
+  display: flex;
+  flex-direction: row;
+  background-color: #f5e65e;
+  border-radius: 10px;
+  margin: 50px;
+  box-shadow: #fa68b4;
   
-  h1 {
-    color: #4d8a65;
-    font-size: 50px;
-    font-family: Crimson Text;
-    text-align: center;
-  }
-  
-  figcaption{
-    color: #CCCCCC;
-  }
-  
-  h2{
-    color: #4d8a65;
-    font-size: 25px;
-    font-family: Crimson Text;
-    text-align: center;
-    padding: 3px 8px 3px 8px;
-    background-color: #5a5a5a;
-    border-top: 6px solid #4d8a84;
-    border-right: 6px solid #4d8a65;
-    border-bottom: 6px solid #4d8a65;
-    border-left: 6px solid #4d8a84;
-  }
-  
-  p{
-    color: #82b395;
-    text-align: center;
-    font-family: Crimson Text;
-  }
-  
-  .textborder {
-    padding: 3px 8px 3px 8px;
-    background-color: #5a5a5a;
-    border-top: 6px solid #4d8a84;
-    border-right: 6px solid #4d8a65;
-    border-bottom: 6px solid #4d8a65;
-    border-left: 6px solid #4d8a84;
-  }
-  
-  .imgcenter{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
-    padding: 3px 8px 3px 8px;
-    background-color: #5a5a5a;
-    border-top: 6px solid #4d8a84;
-    border-right: 6px solid #4d8a65;
-    border-bottom: 6px solid #4d8a65;
-    border-left: 6px solid #4d8a84;
-  }
-  
-  .center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .button {
-    font: bold 12px Arial;
-    text-decoration: none;
-    background-color: #5a5a5a;
-    color: #82b395;
-    padding: 2px 6px 2px 6px;
-    border-top: 3px solid #CCCCCC;
-    border-right: 3px solid #333333;
-    border-bottom: 3px solid #333333;
-    border-left: 3px solid #CCCCCC;
-  }
+}
+.featured-books:nth-of-type(2) {
+  background-color: #fbadaf;
+}
+
+
+.featured-books1:nth-of-type(2) {
+  background-color: #479494;
+}
+
+
+
+
+.img-book {
+  width: 100%;
+  max-width: 900px;
+  margin: 1.5em;
+  border-radius: 3px;
+  transition: transform 1s;
+
+}
+
+.img-book:hover {
+  transform: scale(1.10);
+
+}
+
+.description {
+  margin: 1.5em;
+  padding: 1em;
+}
+
+.name {
+  font-weight: bold;
+  padding-bottom: 0.5em;
+  font-size: 1.1em;
+  letter-spacing: 1px;
+  color: white;
+}
+
+.author {
+  padding-bottom: 0.5em;
+  font-size: 1.1em;
+  letter-spacing: 1px;
+  color: white;
+}
+
+.genre {
+  padding-bottom: 1.2em;
+  font-size: 1em;
+  letter-spacing: 1px;
+  color: white;
+}
+
+.basic-info {
+  font-size: 1em;
+  letter-spacing: 1px;
+  color: white;
+}
+
+
+/* Footer Styles */
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #ff2395;
+  color: rgb(21, 22, 22);
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
