@@ -63,7 +63,7 @@ INSERT INTO books (BookID, GenreID, Title, ISBN, PublicationYear, Price, Publish
 (8, 4, '365 Days to the Wedding, Vol. 2', 9798888433324, 2024, 13.91, 2),
 (9, 5, 'The Analysis of Biological Data', 9781319226237, 2020, 104.02, 4),
 (10, 5, 'The Alignment Problem — Machine Learning and Human Values', 9780393868333, 2021, 8.66, 5),
-(11, 6, 'Atomic Habits', 9780393868333, 2018, 13.79, 6),
+(11, 6, 'Atomic Habits', 9780735211292, 2018, 13.79, 6),
 (12, 7, 'The Black Dahlia Files', 9780060582500, 2006, 8.10, 7),
 (13, 8, 'The Dragon Knights Beloved, Vol. 1', 9781648276668, 2022, 12.92, 2),
 (14, 8, 'The Dragon Knights Beloved, Vol. 2', 9781638581505, 2022, 12.92, 2),
