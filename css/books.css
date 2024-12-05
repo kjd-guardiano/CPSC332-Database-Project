@@ -1,0 +1,107 @@
+/* books.css */
+
+/* Overall Book List Styles */
+.book-list {
+    display: flex;
+    flex-wrap: wrap;  /* Allows books to wrap to the next line */
+    justify-content: space-evenly;  /* Space between the books */
+    gap: 30px;  /* Adds space between items */
+    margin-top: 30px;
+    padding: 0 20px;
+}
+
+.book-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;  /* Aligns items from top to bottom */
+    width: 45%;  /* Books will take up 45% of the container width */
+    min-width: 320px;  /* Minimum width to keep books readable */
+    background-color: #fff;  /* Default background */
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    margin-bottom: 30px;  /* Add bottom margin to separate rows */
+}
+
+.book-item:hover {
+    transform: scale(1.05);  /* Slight zoom effect on hover */
+}
+
+.img-container {
+    width: 30%;  /* Image container will take 30% of book's width */
+    padding-right: 20px;
+}
+
+.book-image {
+    width: 100%;  /* Make the image take full width */
+    height: auto;
+    border-radius: 8px;
+}
+
+.book-description {
+    width: 65%;  /* The description takes the remaining space */
+    padding-left: 20px;
+    text-align: left;
+}
+
+.book-title {
+    font-size: 1.6em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.book-author,
+.book-genre,
+.book-price {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.book-price {
+    color: #2c3e50;
+    font-weight: bold;
+}
+
+.book-info {
+    font-size: 1em;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.buy-button {
+    background-color: #42baf1;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    font-size: 1.1em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.buy-button:hover {
+    background-color: #e9489b;  /* Change color on hover */
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .book-item {
+        width: 100%;  /* On smaller screens, reduce the width */
+        flex-direction: column;  /* Stack the image and description vertically */
+    }
+
+    .img-container {
+        width: 100%;  /* Image takes full width on mobile */
+        margin-bottom: 15px;
+    }
+
+    .book-description {
+        width: 100%;  /* Full width for description on mobile */
+        text-align: center;  /* Center align text */
+    }
+}
