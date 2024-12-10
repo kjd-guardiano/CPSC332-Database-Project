@@ -28,6 +28,8 @@ CREATE TABLE books (
     PublicationYear INT, -- Can use YEAR data type if supported by your DBMS
     Price DECIMAL(10, 2),
     PublisherID INT,
+    image VARCHAR(200),
+    stock INT
     PRIMARY KEY (BookID),
     FOREIGN KEY (GenreID) REFERENCES genres(GenreID),
     FOREIGN KEY (PublisherID) REFERENCES publishers(PublisherID)
