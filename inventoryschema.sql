@@ -1,38 +1,43 @@
-CREATE DATABASE tuffys_tomes;
+CREATE TABLE authors (
+    AuthorID INT AUTO_INCREMENT,
+    FirstName VARCHAR(100),
+    LastName VARCHAR(100),
+    PRIMARY KEY (AuthorID)
+);
 
+-- Create the publishers table
+CREATE TABLE publishers (
+    PublisherID INT AUTO_INCREMENT,
+    PublisherName VARCHAR(150),
+    PRIMARY KEY (PublisherID)
+);
 
-CREATE TABLE book_authors(
-    BookID int,
-    AuthorID VARCHAR(400),
-    CONSTRAINT pk_author PRIMARY KEY (authorID)
-)
+-- Create the genres table
+CREATE TABLE genres (
+    GenreID INT AUTO_INCREMENT,
+    GenreName VARCHAR(100),
+    PRIMARY KEY (GenreID)
+);
 
-CREATE TABLE books(
-    BookID INT,
+-- Create the books table
+CREATE TABLE books (
+    BookID INT AUTO_INCREMENT,
     GenreID INT,
     Title VARCHAR(200),
     ISBN VARCHAR(20),
-    PublicationYear year,
+    PublicationYear INT, -- Can use YEAR data type if supported by your DBMS
     Price DECIMAL(10, 2),
     PublisherID INT,
-    CONSTRAINT pk_book PRIMARY KEY (BookID)
-)
+    PRIMARY KEY (BookID),
+    FOREIGN KEY (GenreID) REFERENCES genres(GenreID),
+    FOREIGN KEY (PublisherID) REFERENCES publishers(PublisherID)
+);
 
-CREATE TABLE genres(
-    GenreID int,
-    GenreName VARCHAR(100),
-    CONSTRAINT pk_genre PRIMARY KEY (GenreID)
-)
-
-CREATE TABLE publishers(
-    PublisherID INT,
-    PublisherName VARCHAR(150),
-    CONSTRAINT pk_publisher PRIMARY KEY (PublisherID)
-)
-
-CREATE TABLE authors(
+-- Create the book_authors table (many-to-many relationship between books and authors)
+CREATE TABLE book_authors (
+    BookID INT,
     AuthorID INT,
-    FirstName VARCHAR(100),
-    LastName VARCHAR(100),
-    CONSTRAINT pk_author PRIMARY KEY (AuthorID)
-)
+    PRIMARY KEY (BookID, AuthorID), -- Composite key
+    FOREIGN KEY (BookID) REFERENCES books(BookID),
+    FOREIGN KEY (AuthorID) REFERENCES authors(AuthorID)
+);

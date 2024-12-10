@@ -13,9 +13,33 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Handle stock update request
+if (isset($_GET['bookid']) && isset($_GET['stock'])) {
+    $bookID = $_GET['bookid'];
+    $currentStock = $_GET['stock'];
+
+    // Check if stock is available
+    if ($currentStock > 0) {
+        // Decrease stock in the database
+        $newStock = $currentStock - 1;
+        $updateStockSql = "UPDATE books SET stock = ? WHERE BookID = ?";
+        $stmt = $conn->prepare($updateStockSql);
+        $stmt->bind_param("ii", $newStock, $bookID);
+        $stmt->execute();
+        $stmt->close();
+
+        // Redirect to refresh the page and reflect changes
+        header("Location: books.php");
+        exit();
+    } else {
+       
+    }
+}
+
 // Fetch books and authors from the database
 $sql = "SELECT books.BookID, books.Title, books.Price, books.ISBN, books.PublicationYear, genres.GenreName, publishers.PublisherName, 
-               GROUP_CONCAT(authors.FirstName, ' ', authors.LastName ORDER BY authors.AuthorID) AS AuthorNames
+               GROUP_CONCAT(authors.FirstName, ' ', authors.LastName ORDER BY authors.AuthorID) AS AuthorNames,
+               books.image AS BookImage, books.stock
         FROM books 
         JOIN genres ON books.GenreID = genres.GenreID
         JOIN publishers ON books.PublisherID = publishers.PublisherID
@@ -24,16 +48,18 @@ $sql = "SELECT books.BookID, books.Title, books.Price, books.ISBN, books.Publica
         GROUP BY books.BookID";
 $result = $conn->query($sql);
 
-// Function to generate a random pastel color
-function generateRandomPastelColor() {
-  // Adjust the range for moderate pastel colors (150 to 230)
-  $r = rand(150, 230);
-  $g = rand(150, 230);
-  $b = rand(150, 230);
-  return "rgb($r, $g, $b)";
-}
+// Fixed pastel colors for book items
+$pastelColors = [
+    "rgb(255, 182, 193)",  // Light Pink
+    "rgb(173, 216, 230)",  // Light Blue
+    "rgb(255, 240, 245)",  // Lavender
+    "rgb(255, 228, 196)",  // Moccasin
+    "rgb(240, 230, 140)",  // Khaki
+    "rgb(216, 191, 216)",  // Thistle
+    "rgb(152, 251, 152)",  // Light Green (added)
+];
 
-
+$colorIndex = 0; // To loop through the pastel colors
 ?>
 
 <!DOCTYPE html>
@@ -44,6 +70,23 @@ function generateRandomPastelColor() {
   <link rel="stylesheet" href="css/styles.css">  <!-- Existing Home Page CSS -->
   <link rel="stylesheet" href="css/books.css">  <!-- New CSS for books.php -->
   <title>Books Collection - Tuffy's Books</title>
+  <script>
+    // JavaScript function to confirm purchase
+    function confirmPurchase(bookID, stock) {
+        // Show the custom confirmation modal next to the button
+        var confirmationBox = document.getElementById("confirmation-box-" + bookID);
+        confirmationBox.style.display = "inline-block";
+        
+        document.getElementById("confirm-btn-" + bookID).onclick = function() {
+            window.location.href = "books.php?bookid=" + bookID + "&stock=" + stock;
+        };
+        
+        document.getElementById("cancel-btn-" + bookID).onclick = function() {
+            confirmationBox.style.display = "none";
+        };
+    }
+  </script>
+ 
 </head>
 <body>
   <!-- Header Section -->
@@ -52,9 +95,9 @@ function generateRandomPastelColor() {
     <h1>Tuffy's Books</h1>
     <nav>
       <ul>
-        <li><a href="index.html">Home</a></li>
+        <li><a href="index.php">Home</a></li>
         <li><a href="books.php">Books</a></li>
-        <li><a href="about.html">About Us</a></li>
+        <li><a href="">About Us</a></li>
       </ul>
     </nav>
   </header>
@@ -69,20 +112,33 @@ function generateRandomPastelColor() {
       if ($result->num_rows > 0) {
           // Output each book
           while($row = $result->fetch_assoc()) {
-              // Generate a random pastel background color
-              $backgroundColor = generateRandomPastelColor();
+              // Assign a pastel color from the array
+              $backgroundColor = $pastelColors[$colorIndex];
+              $colorIndex = ($colorIndex + 1) % count($pastelColors);  // Loop through colors
+
               echo '<section class="book-item" style="background-color: ' . $backgroundColor . ';">';
               echo '<div class="img-container">';
-              echo '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9d69NhT4XEGnRaXCWXsnjtOEeff_28zQtOQ&s" alt="Book Cover" class="book-image">';
+              // Use the image URL from the database for each book
+              echo '<img src="' . $row['BookImage'] . '" alt="Book Cover" class="book-image">';
               echo '</div>';
               echo '<div class="book-description">';
-              echo '<h2 class="book-title">' . $row['Title'] . '</h2>';
+              echo '<h2 class="book-title" id="book-title-' . $row['BookID'] . '">' . $row['Title'] . '</h2>';
               echo '<h3 class="book-author">Author: ' . $row['AuthorNames'] . '</h3>';
               echo '<h3 class="book-publisher">Publisher: ' . $row['PublisherName'] . '</h3>';
               echo '<h3 class="book-genre">Genre: ' . $row['GenreName'] . '</h3>';
               echo '<p class="book-info">ISBN: ' . $row['ISBN'] . '<br>Published: ' . $row['PublicationYear'] . '</p>';
               echo '<p class="book-price">Price: $' . number_format($row['Price'], 2) . '</p>';
-              echo '<a href="buy.php?bookid=' . $row['BookID'] . '"><button class="buy-button">Buy Now</button></a>';
+              echo '<p id="stock-' . $row['BookID'] . '" class="book-stock">Stock: ' . $row['stock'] . ' available</p>';
+
+              // Confirmation box next to the button
+              echo '<div id="confirmation-box-' . $row['BookID'] . '" class="confirmation-box">';
+              echo '<p>Confirm purchase?</p>';
+              echo '<button id="confirm-btn-' . $row['BookID'] . '" class="confirm-btn">Yes</button>';
+              echo '<button id="cancel-btn-' . $row['BookID'] . '" class="cancel-btn">No</button>';
+              echo '</div>';
+
+              // "Buy Now" button
+              echo '<button class="buy-button" onclick="confirmPurchase(' . $row['BookID'] . ',' . $row['stock'] . ')">Buy Now</button>';
               echo '</div>';
               echo '</section>';
           }
